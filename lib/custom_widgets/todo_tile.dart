@@ -29,7 +29,11 @@ class ToDoTile extends StatelessWidget {
 
             Text(
               text,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(
+                  fontSize: 18,
+                  decoration: taskcompleted
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none),
             ),
           ],
         ),
