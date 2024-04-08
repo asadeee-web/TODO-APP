@@ -12,6 +12,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _controller = TextEditingController();
 
+  //save task function
+
   void saveTask() {
     setState(() {
       todolist.add([_controller.text, false]);
@@ -19,12 +21,24 @@ class _HomeScreenState extends State<HomeScreen> {
     Navigator.of(context).pop();
   }
 
+  //delete task function
+  void deleteTask(int index) {
+    setState(() {
+      todolist.removeAt(index);
+    });
+  }
+
+  //todo list
+
   List todolist = [
     ["Running Day", false],
     ["Working Day", false],
     ["Exercise Day", false],
     ["Vecation Day", false],
   ];
+
+  //user tap checkbox function
+
   void usertaped(bool? value, int index) {
     setState(() {
       todolist[index][1] = !todolist[index][1];
@@ -66,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: todolist.length,
         itemBuilder: (BuildContext context, int index) {
           return ToDoTile(
+              deleteFunction: (p0) => deleteTask(index),
               taskcompleted: todolist[index][1],
               onchanged: (value) => usertaped(value, index),
               text: todolist[index][0]);
