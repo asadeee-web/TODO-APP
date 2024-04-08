@@ -10,6 +10,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _controller = TextEditingController();
+
+  void saveTask() {
+    setState(() {
+      todolist.add([_controller.text, false]);
+    });
+    Navigator.of(context).pop();
+  }
+
   List todolist = [
     ["Running Day", false],
     ["Working Day", false],
@@ -23,7 +32,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void addNewtask() {
-    showDialog(context: context, builder: (context) => DialogBox());
+    showDialog(
+        context: context,
+        builder: (context) => DialogBox(
+              oncaancel: () => Navigator.of(context).pop(),
+              onsave: saveTask,
+              Controller: _controller,
+            ));
   }
 
   @override
