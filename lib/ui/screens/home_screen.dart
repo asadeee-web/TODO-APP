@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/custom_widgets/dialog_box.dart';
-import 'package:todo_app/custom_widgets/todo_tile.dart';
+import 'package:hive/hive.dart';
+import 'package:todo_app/core/database/data.dart';
+import 'package:todo_app/ui/screens/custom_widgets/dialog_box.dart';
+import 'package:todo_app/ui/screens/custom_widgets/todo_tile.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -11,38 +13,43 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _controller = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    db.loadData();
+  }
+
+  final mybox = Hive.box('mybox');
 
   //save task function
 
   void saveTask() {
     setState(() {
-      todolist.add([_controller.text, false]);
+      db.todolist.add([_controller.text, false]);
     });
     Navigator.of(context).pop();
+    db.updateData();
   }
 
   //delete task function
   void deleteTask(int index) {
     setState(() {
-      todolist.removeAt(index);
+      db.todolist.removeAt(index);
     });
+    db.updateData();
   }
 
   //todo list
 
-  List todolist = [
-    ["Running Day", false],
-    ["Working Day", false],
-    ["Exercise Day", false],
-    ["Vecation Day", false],
-  ];
+  ToDoDatabase db = ToDoDatabase();
 
   //user tap checkbox function
 
   void usertaped(bool? value, int index) {
     setState(() {
-      todolist[index][1] = !todolist[index][1];
+      db.todolist[index][1] = !db.todolist[index][1];
     });
+    db.updateData();
   }
 
   void addNewtask() {
@@ -77,13 +84,13 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
       body: ListView.builder(
-        itemCount: todolist.length,
+        itemCount: db.todolist.length,
         itemBuilder: (BuildContext context, int index) {
           return ToDoTile(
               deleteFunction: (p0) => deleteTask(index),
-              taskcompleted: todolist[index][1],
+              taskcompleted: db.todolist[index][1],
               onchanged: (value) => usertaped(value, index),
-              text: todolist[index][0]);
+              text: db.todolist[index][0]);
         },
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/custom_widgets/button.dart';
+import 'package:todo_app/ui/screens/custom_widgets/button.dart';
 
 class DialogBox extends StatelessWidget {
   final Controller;
