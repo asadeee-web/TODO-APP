@@ -8,12 +8,15 @@ class ToDoTile extends StatelessWidget {
   Function(BuildContext)? deleteFunction;
 
   //String text;
-  ToDoTile(
-      {super.key,
-      required this.deleteFunction,
-      required this.taskcompleted,
-      required this.onchanged,
-      required this.text});
+  ToDoTile({
+    super.key,
+    required this.deleteFunction,
+    required this.taskcompleted,
+    required this.onchanged,
+    required this.text,
+    // required bool taskCompleted,
+    // required void Function(dynamic value) onChanged
+  });
 
   void deleteaction() {}
 
